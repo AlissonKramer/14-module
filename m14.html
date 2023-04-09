@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document14</title>
+    <style>
+        button{
+            text-align: center;
+            margin-left: 15%;
+            margin-top: 10%;
+        }
+        img{
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <label >Введите номер страницы
+        <input type="number" value="" id="l1">
+      </label>
+      <label>Введите лимит
+        <input type="number" value="" id="l2">
+      </label> <br>
+      <button type="submit" onclick="compare()">запрос</button>
+      <p id="result"></p>
+      <div id="res"></div>
+    <script>
+        function compare() {
+            const value1= document.getElementById("l1").value
+            const value2= document.getElementById("l2").value
+            const page = +document.getElementById('l1').value;
+            const limit = +document.getElementById('l2').value;
+            let s = document.getElementById('result');
+            s.textContent = '';
+            if (!(value1 >=1 && value1 <=10)) {
+                s.textContent = 'Номер страницы вне диапазона от 1 до 10'; }
+            else if (!(value2 >=1 && value2 <=10)) {
+                s.textContent = 'Лимит вне диапазона от 1 до 10'; }
+            else if(!((value1 >=1 && value1 <=10) && (value2 >=1 && value2 <=10))){
+                s.textContent = 'Номер страницы и лимит вне диапазона от 1 до 10'; return}
+                else {
+                    fetch(`https://picsum.photos/v2/list?page=${page}&limit=${limit}`)
+                    .then((response) => {
+                    return response.json();
+                    })
+                    .then((data) =>{
+                    let res = document.getElementById('res');
+                    for (item of data){
+                    let img = document.createElement('IMG');
+                    img.setAttribute('src', item.download_url); 
+                    img.setAttribute('alt', item.author);
+                    img.setAttribute('width', '200');
+                    res.append(img);
+        }
+    });}
+            
+        }
+        
+    </script>
+
+</body>
+</html>
